@@ -87,7 +87,7 @@ class MyHomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return AddExpense();
+                    return AddExpense(model);
                   }
                 ),
               );

@@ -1,10 +1,15 @@
+import 'package:expenses_log/ExpensesModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class _AddExpenseState extends State<AddExpense> {
   double _price;
+  String _name;
+  ExpensesModel _model;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
+  _AddExpenseState(this._model);
+
   @override 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +35,16 @@ class _AddExpenseState extends State<AddExpense> {
                 _price = double.parse(value);
               },
             ),
+            TextFormField(
+              onSaved: (value) {
+                _name = value;
+              },
+            ),
             RaisedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
+                   _model.addExpense(_name, _price);
                   Navigator.pop(context);
                 }
               },
@@ -48,6 +59,10 @@ class _AddExpenseState extends State<AddExpense> {
 }
 
 class AddExpense extends StatefulWidget {
+  final ExpensesModel _model;
+
+  AddExpense(this._model);
+
   @override 
-  State<StatefulWidget> createState() => _AddExpenseState();
+  State<StatefulWidget> createState() => _AddExpenseState(_model);
 }
