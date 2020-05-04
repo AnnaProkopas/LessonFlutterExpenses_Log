@@ -1,13 +1,15 @@
 import 'package:expenses_log/ExpensesModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class _AddExpenseState extends State<AddExpense> {
   double _price;
   String _name;
   ExpensesModel _model;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+  DateTime _dateTime = DateTime.now();
+
   _AddExpenseState(this._model);
 
   @override 
@@ -40,11 +42,30 @@ class _AddExpenseState extends State<AddExpense> {
                 _name = value;
               },
             ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(DateFormat('yyyy-MM-dd').format(_dateTime)),
+            ),
+            RaisedButton(
+              child: Text("Choose day"),
+              onPressed: () {
+                showDatePicker(
+                  context: context, 
+                  initialDate: DateTime.now(), 
+                  firstDate: DateTime(1990), 
+                  lastDate: DateTime(3000)
+                ).then((date) {
+                  setState(() {
+                    _dateTime = date;
+                  });
+                });
+              },
+            ),
             RaisedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
-                   _model.addExpense(_name, _price);
+                   _model.addExpense(_name, _price, _dateTime);
                   Navigator.pop(context);
                 }
               },

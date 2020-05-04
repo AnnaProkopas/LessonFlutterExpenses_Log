@@ -56,16 +56,34 @@ class MyHomePage extends StatelessWidget {
             itemBuilder: (context, index){
               if (index == 0) {
                 return ListTile(
-                  title: Text("Total expenses: 2001"),
+                  title: Text("Total expenses: " + model.getTotal().toString()),
                 );
               } else {
                 index -= 1;
                 return Dismissible(
                   key: Key(model.getKey(index)),
                   onDismissed: (direction) {
-                    model.removeAt(index);
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("Deleted record $index", textDirection: TextDirection.ltr,),)
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                          title: Text("Submit delete"),
+                          content: Text("Are you shure delete record $index?"),
+                          actions: [
+                            FlatButton(
+                              child: Text("Cancel"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("Delete"),
+                              onPressed: () {
+                                model.removeAt(index);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
                     );
                   },
                   child: ListTile(
