@@ -1,6 +1,7 @@
 import 'package:expenses_log/AddExpense.dart';
 import 'package:expenses_log/Expense.dart';
 import 'package:expenses_log/ExpensesModel.dart';
+import 'package:expenses_log/MonthExpense.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -50,6 +51,21 @@ class MyHomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(title, textDirection: TextDirection.ltr),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.calendar_today), 
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MonthExpense();
+                    }
+                  ),
+                );
+              }
+            )
+          ],
         ),
         body: ScopedModelDescendant<ExpensesModel>(
           builder: (context, child, model) => ListView.separated(
@@ -60,35 +76,47 @@ class MyHomePage extends StatelessWidget {
                 );
               } else {
                 index -= 1;
-                return Dismissible(
+                return Dismissible (
                   key: Key(model.getKey(index)),
-                  onDismissed: (direction) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                          title: Text("Submit delete"),
-                          content: Text("Are you shure delete record $index?"),
-                          actions: [
-                            FlatButton(
-                              child: Text("Cancel"),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            FlatButton(
-                              child: Text("Delete"),
-                              onPressed: () {
-                                model.removeAt(index);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                    );
+                  confirmDismiss: (direction) async {
+                    if (direction == DismissDirection.startToEnd) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                            title: Text("Submit delete"),
+                            content: Text("Are you shure delete record $index?"),
+                            actions: [
+                              FlatButton(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                              ),
+                              FlatButton(
+                                child: Text("Delete"),
+                                onPressed: () {
+                                  model.removeAt(index);
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                            ],
+                          ),
+                      );
+                    } if (direction == DismissDirection.endToStart) {
+                      Navigator.of(context).pop(false);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MonthExpense();
+                          }
+                        )
+                      );
+                    }
                   },
                   child: ListTile(
                     title: Text(model.getText(index)),
-                    leading: Icon(Icons.attach_money),
+                    leading: Icon(Icons.edit),
                     trailing: Icon(Icons.delete),
                   ),
                 );

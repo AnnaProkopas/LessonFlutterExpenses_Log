@@ -1,16 +1,18 @@
+import 'package:expenses_log/Expense.dart';
 import 'package:expenses_log/ExpensesModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class _AddExpenseState extends State<AddExpense> {
+class _EditExpenseState extends State<EditExpense> {
   double _price;
   String _name;
+  DateTime _dateTime = DateTime.now();
   ExpensesModel _model;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  DateTime _dateTime = DateTime.now();
+  int _index;
 
-  _AddExpenseState(this._model);
+  _EditExpenseState(this._model, this._index);
 
   @override 
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class _AddExpenseState extends State<AddExpense> {
           children: [
             TextFormField(
               autovalidate: true,
+              initialValue: _model.getObject(_index).price.toString(),
               decoration: new InputDecoration.collapsed(
                 hintText: "0"
               ),
@@ -40,6 +43,7 @@ class _AddExpenseState extends State<AddExpense> {
               },
             ),
             TextFormField(
+              initialValue: _model.getObject(_index).name,
               decoration: new InputDecoration.collapsed(
                 hintText: "food"
               ),
@@ -47,7 +51,7 @@ class _AddExpenseState extends State<AddExpense> {
                 _name = value;
               },
             ),
-            Text(DateFormat('yyyy-MM-dd').format(_dateTime),
+            Text(DateFormat('yyyy-MM-dd').format(_model.getObject(_index).date),
               style: TextStyle(
                 height: 3.0,
                 fontSize: 18
@@ -61,7 +65,7 @@ class _AddExpenseState extends State<AddExpense> {
                 onPressed: () {
                   showDatePicker(
                     context: context, 
-                    initialDate: DateTime.now(), 
+                    initialDate: _model.getObject(_index).date, 
                     firstDate: DateTime(1990), 
                     lastDate: DateTime(3000)
                   ).then((date) {
@@ -82,7 +86,7 @@ class _AddExpenseState extends State<AddExpense> {
                   onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
-                    _model.addExpense(_name, _price, _dateTime);
+                    _model.updateExpense(_index, _name, _price, _dateTime);
                     Navigator.pop(context);
                   }
                 },
@@ -102,11 +106,13 @@ class _AddExpenseState extends State<AddExpense> {
   }
 }
 
-class AddExpense extends StatefulWidget {
+class EditExpense extends StatefulWidget {
   final ExpensesModel _model;
+  // final Expense _object;
+  final int _index;
 
-  AddExpense(this._model);
+  EditExpense(this._model, this._index);
 
   @override 
-  State<StatefulWidget> createState() => _AddExpenseState(_model);
+  State<StatefulWidget> createState() => _EditExpenseState(_model, _index);
 }
