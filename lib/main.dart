@@ -1,4 +1,5 @@
 import 'package:expenses_log/AddExpense.dart';
+import 'package:expenses_log/EditExpense.dart';
 import 'package:expenses_log/Expense.dart';
 import 'package:expenses_log/ExpensesModel.dart';
 import 'package:expenses_log/MonthExpense.dart';
@@ -103,15 +104,16 @@ class MyHomePage extends StatelessWidget {
                           ),
                       );
                     } if (direction == DismissDirection.endToStart) {
-                      Navigator.of(context).pop(false);
+                      // Navigator.of(context).pop(false);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return MonthExpense();
+                            return EditExpense(model, index);
                           }
                         )
                       );
+                      // Navigator.of(context).pop(false);
                     }
                   },
                   child: ListTile(

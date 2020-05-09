@@ -45,4 +45,10 @@ class ExpenseDB {
     Database db = await database;
     await db.rawDelete("DELETE FROM Expenses WHERE id = $id;");
   }
+
+  Future<void> updateById(int id, String name, double price, DateTime dateTime) async {
+    Database db = await database;
+    var dateAsString = DateFormat('yyyy-MM-dd 00:00:00').format(dateTime);
+    await db.rawUpdate("UPDATE Expenses SET name = \"$name\", price = $price, date = \"$dateAsString\" WHERE id = $id;");
+  }
 }

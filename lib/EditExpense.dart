@@ -90,7 +90,7 @@ class _EditExpenseState extends State<EditExpense> {
                     Navigator.pop(context);
                   }
                 },
-                  child: Center(child: Text("Add", style: TextStyle(
+                  child: Center(child: Text("Save", style: TextStyle(
                     fontSize: 20, 
                     color: Colors.white
                     ),)

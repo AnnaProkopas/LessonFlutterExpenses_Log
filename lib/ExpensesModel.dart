@@ -87,7 +87,7 @@ class ExpensesModel extends Model {
     if (!_years.containsKey(dateTime.year)) {
       _years[dateTime.year] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     }
-    _items.insert(0, Expense(_items[0].id * -1 - 1, dateTime, name, price));
+    // _items.insert(0, Expense(_items[0].id * -1 - 1, dateTime, name, price));
     _years[dateTime.year][dateTime.month] += price;
     future.then((_) {
       load();
@@ -103,7 +103,7 @@ class ExpensesModel extends Model {
   }
 
   void updateExpense(int ind, String name, double price, DateTime dateTime) {
-    // Future<void> future = _database.update(id, name, price, datetime);
+    // Future<void> future = _database.updateById(id, name, price, datetime);
     _items[ind] = Expense(_items[ind].id, dateTime, name, price);
     // future.then((_) {
     //   load();
