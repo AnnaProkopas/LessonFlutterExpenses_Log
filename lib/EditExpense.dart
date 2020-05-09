@@ -7,12 +7,15 @@ import 'package:intl/intl.dart';
 class _EditExpenseState extends State<EditExpense> {
   double _price;
   String _name;
-  DateTime _dateTime = DateTime.now();
+  int _index;
+  DateTime _dateTime;
   ExpensesModel _model;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int _index;
+  
 
-  _EditExpenseState(this._model, this._index);
+  _EditExpenseState(this._model, this._index) {
+    _dateTime = _model.getObject(_index).date;
+  }
 
   @override 
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class _EditExpenseState extends State<EditExpense> {
                 _name = value;
               },
             ),
-            Text(DateFormat('yyyy-MM-dd').format(_model.getObject(_index).date),
+            Text(DateFormat('yyyy-MM-dd').format(_dateTime),
               style: TextStyle(
                 height: 3.0,
                 fontSize: 18
