@@ -40,9 +40,21 @@ class _AddExpenseState extends State<AddExpense> {
               },
             ),
             TextFormField(
+              autovalidate: true,
               decoration: new InputDecoration.collapsed(
                 hintText: "food"
               ),
+              minLines: 1,
+              maxLines: 5,
+              validator: (value) {
+                if (value.length < 1) {
+                  return "Enter discription";
+                } else if (value.length > 200) {
+                  return "Description too long";
+                } else {
+                  return null;
+                }
+              },
               onSaved: (value) {
                 _name = value;
               },

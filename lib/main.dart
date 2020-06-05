@@ -15,18 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'My expenses'),
     );
   }
 }
@@ -104,7 +95,6 @@ class MyHomePage extends StatelessWidget {
                           ),
                       );
                     } if (direction == DismissDirection.endToStart) {
-                      // Navigator.of(context).pop(false);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -113,7 +103,6 @@ class MyHomePage extends StatelessWidget {
                           }
                         )
                       );
-                      // Navigator.of(context).pop(false);
                     }
                   },
                   child: ListTile(
@@ -124,7 +113,7 @@ class MyHomePage extends StatelessWidget {
                 );
               }
             }, 
-            separatorBuilder: (context, index) => Divider(color: Color(0xffaa0099),), 
+            separatorBuilder: (context, index) => Divider(color: Color(0xff02a4d3),), 
             itemCount: model.recordsCount + 1,
           ),
         ),

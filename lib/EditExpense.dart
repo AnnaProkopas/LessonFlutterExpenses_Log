@@ -20,7 +20,7 @@ class _EditExpenseState extends State<EditExpense> {
   @override 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Add Expense")),
+      appBar: AppBar(title: Text("Edit Expense")),
       body: Padding(
         padding: const EdgeInsets.only(top: 25.0, right: 32.0, bottom: 32.0, left: 32.0),
         child: Form( 
@@ -46,10 +46,19 @@ class _EditExpenseState extends State<EditExpense> {
               },
             ),
             TextFormField(
+              autovalidate: true,
               initialValue: _model.getObject(_index).name,
-              decoration: new InputDecoration.collapsed(
-                hintText: "food"
-              ),
+              minLines: 1,
+              maxLines: 5,
+              validator: (value) {
+                if (value.length < 1) {
+                  return "Enter discription";
+                } else if (value.length > 200) {
+                  return "Shorten description";
+                } else {
+                  return null;
+                }
+              },
               onSaved: (value) {
                 _name = value;
               },
@@ -111,7 +120,6 @@ class _EditExpenseState extends State<EditExpense> {
 
 class EditExpense extends StatefulWidget {
   final ExpensesModel _model;
-  // final Expense _object;
   final int _index;
 
   EditExpense(this._model, this._index);
