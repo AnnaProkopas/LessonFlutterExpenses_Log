@@ -73,13 +73,15 @@ class _AddExpenseState extends State<AddExpense> {
                 onPressed: () {
                   showDatePicker(
                     context: context, 
-                    initialDate: DateTime.now(), 
+                    initialDate: _dateTime, 
                     firstDate: DateTime(1990), 
                     lastDate: DateTime(3000)
                   ).then((date) {
-                    setState(() {
-                      _dateTime = date;
-                    });
+                    if (date != null && date != _dateTime) {
+                      setState(() {
+                        _dateTime = date;
+                      });
+                    }
                   });
                 },
               ),
