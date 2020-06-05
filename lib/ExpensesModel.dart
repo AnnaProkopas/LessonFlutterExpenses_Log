@@ -9,7 +9,6 @@ class ExpensesModel extends Model {
   int get recordsCount => _items.length;
   Map<int, List<double>> _years = new Map();
 
-
   ExpensesModel() {
     _database = ExpenseDB();
     load();
@@ -19,7 +18,7 @@ class ExpensesModel extends Model {
     Future<List<Expense>> future= _database.getAllExpenses();
     future.then((list) {
       _items = list;
-      // print(_years);
+      updateListMonths();
       notifyListeners();
     });
   }
@@ -36,25 +35,6 @@ class ExpensesModel extends Model {
     }
     notifyListeners();
   }
-
-  // void getMonthsByYear(int _year) {
-  //   // load();
-  //   _current_year = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-  //   // for (var i = 0; i < 12; i++) {
-  //   //   year.add(0.0);
-  //   // }
-  //   // return year;
-  //   // load();
-  //   // print(_year);
-  //   for (Expense exp in _items) {
-  //     if (exp.date.year == _year) {
-  //       _current_year[exp.date.month - 1] += exp.price;
-  //     }
-  //   }
-  //   // print("$_current_year");
-  //   notifyListeners();
-  //   // return _current_year;
-  // }
 
   String getYear(int num_year, int num_month) {
     if (_years.containsKey(num_year)) {
@@ -74,7 +54,7 @@ class ExpensesModel extends Model {
 
   void removeAt(int index) {
     int id = _items[index].id;
-    _years[_items[index].date.year][_items[index].date.month] += _items[index].price;
+    _years[_items[index].date.year][_items[index].date.month] -= _items[index].price;
     _items.removeAt(index);
     Future<void> future = _database.removeById(id);
     future.then((_) {

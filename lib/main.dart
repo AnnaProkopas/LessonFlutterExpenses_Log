@@ -76,7 +76,7 @@ class MyHomePage extends StatelessWidget {
                         context: context,
                         builder: (_) => AlertDialog(
                             title: Text("Submit delete"),
-                            content: Text("Are you shure delete record $index?"),
+                            content: Text("Are you shure delete record №" + (index + 1).toString() + "?"),
                             actions: [
                               FlatButton(
                                 child: Text("Cancel"),
