@@ -29,7 +29,7 @@ class ExpenseDB {
 
   Future<List<Expense>> getAllExpenses() async {
     Database db = await database;
-    List<Map> query = await db.rawQuery("SELECT * FROM Expenses ORDER BY date(date) ASC");
+    List<Map> query = await db.rawQuery("SELECT * FROM Expenses ORDER BY date(date) DESC");
     var result = List<Expense>();
     query.forEach((r) => result.add(Expense(r["id"], DateTime.parse(r["date"]), r["name"], r["price"])));
     return result;
