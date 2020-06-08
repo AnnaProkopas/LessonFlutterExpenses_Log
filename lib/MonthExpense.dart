@@ -17,7 +17,6 @@ class _MonthExpense extends State<MonthExpense> {
           builder: (context, child, model) => ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
-                // model.getMonthsByYear(_year);
                 model.updateListMonths();
                 return Container(
                   height: 50.0 , 
@@ -27,7 +26,6 @@ class _MonthExpense extends State<MonthExpense> {
                       return Container(
                         width: 80,
                         child: RaisedButton(
-                          // Color.fromRGBO(0, 100, 240, 1),
                           color: (_index == _year) ? Color.fromRGBO(70, 170, 250, 1) : Color.fromRGBO(240, 240, 250, 1),
                           child: Text(
                             (1990 + _index).toString(),
@@ -39,10 +37,6 @@ class _MonthExpense extends State<MonthExpense> {
                           onPressed: () {
                             _year = _index;
                             model.updateListMonths();
-                            // print(model.getYear(2020, 5));
-                            // print(_year);
-                            // model.getMonthsByYear(_year + 1990);
-                            // notifyListeners();
                           },
                       ),)
                       ;
@@ -59,14 +53,12 @@ class _MonthExpense extends State<MonthExpense> {
                   children: <Widget>[
                     Text(
                       _nameMonths[index - 1],
-                      // overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 18,
                       ),
                     ),
                     Text(
                       model.getYear(_year + 1990, index - 1),
-                      // overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 18,
                       ),

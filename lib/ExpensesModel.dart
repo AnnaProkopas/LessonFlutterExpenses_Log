@@ -30,7 +30,7 @@ class ExpensesModel extends Model {
         if (!_years.containsKey(ex.date.year)) {
           _years[ex.date.year] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
         }
-        _years[ex.date.year][ex.date.month] += ex.price;
+        _years[ex.date.year][ex.date.month - 1] += ex.price;
       }
     }
     notifyListeners();
@@ -54,7 +54,7 @@ class ExpensesModel extends Model {
 
   void removeAt(int index) {
     int id = _items[index].id;
-    _years[_items[index].date.year][_items[index].date.month] -= _items[index].price;
+    _years[_items[index].date.year][_items[index].date.month - 1] -= _items[index].price;
     _items.removeAt(index);
     Future<void> future = _database.removeById(id);
     future.then((_) {
@@ -67,7 +67,7 @@ class ExpensesModel extends Model {
     if (!_years.containsKey(dateTime.year)) {
       _years[dateTime.year] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     }
-    _years[dateTime.year][dateTime.month] += price;
+    _years[dateTime.year][dateTime.month - 1] += price;
     future.then((_) {
       load();
     });
